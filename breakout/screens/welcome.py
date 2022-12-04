@@ -25,8 +25,8 @@ class WelcomeScreen(BaseScreen):
 
     def manage_event(self, event):
         #print(event)
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE or event.type == pygame.MOUSEBUTTONDOWN:
             pygame.mixer.Sound.play(menu)
-            pygame.time.delay(500)
+            pygame.time.delay(250)
             self.next_screen = "game"
             self.running = False

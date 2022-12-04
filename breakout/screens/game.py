@@ -4,12 +4,18 @@ from screens import BaseScreen
 
 from ..components import Paddle, Ball, TileGroup, tile
 from components import TextBox
-pygame.mixer.init() 
 
 pygame.display.set_caption('Tile breaker')
+
+# Clock
 clock = pygame.time.Clock()
 
+#spirtes
+pygame.init()
+background = pygame.image.load("./breakout/images/background.jpg")
+
 # Sounds
+pygame.mixer.init() 
 bing = pygame.mixer.Sound("./breakout/Sounds/TBbong.wav")
 vine = pygame.mixer.Sound("./breakout/Sounds/Vine.wav")
 
@@ -58,20 +64,18 @@ class GameScreen(BaseScreen):
             self.running = False
             self.next_screen = "game_over"
 
-
         if not self.tiles:
             print('sprite_group is empty')
             if self.level == 4:
                 self.level = 0
             else:
-                self.level += 1
-                print(self.level)
-
+                self.level += 1 
                 self.ball.speed += 1
             self.tiles = TileGroup(level=self.level)
 
     def draw(self):
         self.window.fill((255, 255, 255))
+        self.window.blit(background, (0,0))
         self.sprites.draw(self.window)
         self.tiles.draw(self.window)
 
