@@ -15,9 +15,9 @@ pygame.init()
 background = pygame.image.load("./breakout/images/background.jpg")
 
 # Sounds
-pygame.mixer.init() 
-bing = pygame.mixer.Sound("./breakout/Sounds/TBbong.wav")
-vine = pygame.mixer.Sound("./breakout/Sounds/Vine.wav")
+blip = pygame.mixer.Sound("./breakout/Sounds/blip.wav")
+menu = pygame.mixer.Sound("./breakout/Sounds/menu.wav")
+
 
 class GameScreen(BaseScreen):
 
@@ -31,19 +31,20 @@ class GameScreen(BaseScreen):
         # Create the ball
         self.ball = Ball(limits=self.rect)
         self.ball.speed = 8
-
         self.ball.angle = random.randint(0, 31416) / 10000
+
         self.level = 0
         self.tiles = TileGroup()
+
         # Put all sprites in the group
         self.sprites = pygame.sprite.Group()
         self.sprites.add(self.paddle)
         self.sprites.add(self.ball)
         self.sprites.add(self.tiles)
 
-
-
     def update(self):
+
+        # paddle
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             self.paddle.move("left")
@@ -51,19 +52,23 @@ class GameScreen(BaseScreen):
         if keys[pygame.K_RIGHT]:
             self.paddle.move("right")
 
+        # collided
         self.sprites.update()
+
         collided = self.ball.collidetiles(self.tiles)
         if collided:
-            pygame.mixer.Sound.play(bing)
+            pygame.mixer.Sound.play(blip)
 
         caught_the_ball = self.ball.collidepaddle(self.paddle.rect)
         if caught_the_ball:
-            pygame.mixer.Sound.play(vine)
+            pygame.mixer.Sound.play(menu)
 
+        # death
         if self.ball.rect.bottom > self.paddle.rect.top and not caught_the_ball:
             self.running = False
             self.next_screen = "game_over"
 
+        # level 
         if not self.tiles:
             print('sprite_group is empty')
             if self.level == 4:

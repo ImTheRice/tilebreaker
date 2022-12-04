@@ -1,5 +1,5 @@
 import pygame
-
+pygame.mixer.init() 
 
 class BaseScreen:
     """Base class for all game screens"""

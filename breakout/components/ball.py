@@ -2,6 +2,7 @@ import pygame
 from .sprite import MySprite
 import math
 
+wallbang = pygame.mixer.Sound("./breakout/Sounds/blip.wav")
 
 class Ball(MySprite):
     """The Ball class - a lot happens here!"""
@@ -28,18 +29,22 @@ class Ball(MySprite):
         if self.rect.left < self.limits.left:
             self.rect.x = self.limits.left
             self.angle = math.radians(180) - self.angle
+            pygame.mixer.Sound.play(wallbang)
 
         if self.rect.right > self.limits.right:
             self.rect.x = self.limits.right - self.rect.width
             self.angle = math.radians(180) - self.angle
+            pygame.mixer.Sound.play(wallbang)
 
         if self.rect.top < self.limits.top:
             self.rect.y = self.limits.top
             self.angle = -self.angle
+            pygame.mixer.Sound.play(wallbang)
 
         if self.rect.bottom > self.limits.bottom:
             self.rect.y = self.limits.bottom - self.rect.height
             self.angle = -self.angle
+            pygame.mixer.Sound.play(wallbang)
 
     def bounce_from(self, other):
         """Makes the ball bounce from the `other` object"""
