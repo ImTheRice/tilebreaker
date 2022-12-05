@@ -15,10 +15,7 @@ class Ball(MySprite):
         image =  pygame.image.load("./breakout/images/ball.png")
         self.image = pygame.transform.scale(image,(25,25))
         self.rect = self.image.get_rect()
-        #self.image.fill(bgcolor)
-        #pygame.draw.circle(self.image, color, (width / 2, height / 2), width / 2)
         
-
         self.speed = 0
         self.angle = 0
 
