@@ -1,6 +1,7 @@
 import random
 import pygame
 from screens import BaseScreen
+import requests
 
 from ..components import Paddle, Ball, TileGroup, tile
 from components import TextBox
@@ -72,21 +73,23 @@ class GameScreen(BaseScreen):
 
         # time 
         clock.tick(60)
-        time = pygame.time.get_ticks() / 1000
+        self.time = pygame.time.get_ticks() / 1000
         font = pygame.font.SysFont('Arial', 24)
         
 
         # text 
         self.score_text = font.render("Score: " + str(self.score), True, (0,0,0))
-        self.text = font.render("Time: " + str(time), True, (0, 0, 0))
+        self.text = font.render("Time: " + str(self.time), True, (0, 0, 0))
         self.combo_text = font.render("Combo: " + str(self.combo), True, (0, 0, 0))
         
         # death
         if self.ball.rect.bottom > self.paddle.rect.top and not caught_the_ball:
             self.running = False
+            self.time = 0
             pygame.mixer.Sound.play(death)
             pygame.time.delay(250)
             self.next_screen = "game_over"
+            post = requests.post("http://127.0.0.1:5000/add", json={"score": self.score})
 
         # level 
         if not self.tiles:
